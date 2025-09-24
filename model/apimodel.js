@@ -1,17 +1,24 @@
 import mongoose from "mongoose";
 
 const ApiSchema = new mongoose.Schema({
-  apiKey: {
+  user: {                      
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  keyHash: {                    
     type: String,
     required: true,
     unique: true,
   },
-  apiSecret: {
+  secretHash: {                 
     type: String,
     required: true,
   },
+  name: { type: String },       
+  active: { type: Boolean, default: true },
+  createdAt: { type: Date, default: Date.now },
+  expiresAt: { type: Date }     
 });
 
-const Api = mongoose.model("Api", ApiSchema);
-
-export default Api;
+export default mongoose.model("ApiKey", ApiSchema);
