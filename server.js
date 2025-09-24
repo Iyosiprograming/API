@@ -1,10 +1,13 @@
 import express from 'express';
 import UserRouter from './router/userRouter.js';
 import ApiKeyRouter from './router/apiKeyRouter.js';
+import db from './config/db.js';
 
 const app = express();
 
 app.use(express.json());
+
+db();
 
 app.use('/user', UserRouter);
 app.use('/api-key', ApiKeyRouter);
