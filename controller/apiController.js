@@ -31,6 +31,15 @@ export const createApiKey = async (req, res) => {
   }
 };
 
+export const getApiKeys = async (req, res) => {
+  try {
+    const apiKeys = await ApiKey.find({ user: req.user._id });
+    res.json(apiKeys);
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 export const revokeApiKey = async (req, res) => {
   try {
     const { id } = req.params; 
