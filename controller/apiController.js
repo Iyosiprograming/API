@@ -1,4 +1,5 @@
-import ApiKey from "../models/apiKeyModel.js";
+import ApiKey from "../model/apimodel.js";
+import mongoose from "mongoose";
 import crypto from "crypto";
 
 
@@ -40,19 +41,23 @@ export const getApiKeys = async (req, res) => {
   }
 };
 
+
 export const revokeApiKey = async (req, res) => {
   try {
-    const { id } = req.params; 
+    const { id } = req.body; // or req.params.id if using /revoke/:id
+
     const deleted = await ApiKey.findOneAndDelete({
       _id: id,
-      user: req.user._id
+      user: req.user._id   // ✅ no need to wrap if already ObjectId
     });
 
     if (!deleted) {
       return res.status(404).json({ message: "API key not found" });
     }
+
     res.json({ message: "API key revoked successfully" });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Server error" });
   }
 };
